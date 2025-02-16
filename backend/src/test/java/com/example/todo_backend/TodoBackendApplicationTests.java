@@ -2,13 +2,13 @@ package com.example.todo_backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(classes = TodoBackendApplication.class, 
-                  properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration")
-public class TodoBackendApplicationTests {
+@SpringBootTest
+@ActiveProfiles("test")
+class TodoBackendApplicationTests {
 
     @Test
     void contextLoads() {
-        // コンテキストロードのテスト
     }
 }
