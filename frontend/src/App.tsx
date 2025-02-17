@@ -43,7 +43,7 @@ const App: React.FC = () => {
         title: newTodo,
         completed: false
       });
-      
+
       // 作成されたTodoをリストに追加
       const createdTodo: Todo = response.data;
       setTodos(prev => [...prev, createdTodo]);
@@ -55,11 +55,21 @@ const App: React.FC = () => {
     }
   };
 
+  // チェックボックスのオンオフ ※状態管理のみ
+  const toggleTodo = (id: number) => {
+    setTodos(prevTodos =>
+      prevTodos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>TODO App (Spring Boot連携)</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      
+
       {/* 入力フォーム */}
       <form onSubmit={handleAddTodo}>
         <input
@@ -71,9 +81,9 @@ const App: React.FC = () => {
         />
         <button type="submit">Add Todo</button>
       </form>
-      
+
       <hr />
-      
+
       {/* Todoリストの表示 */}
       {!Array.isArray(todos) ? (
         <p>データ形式が不正です</p>
@@ -82,7 +92,13 @@ const App: React.FC = () => {
       ) : (
         <ul>
           {todos.map(todo => (
-            <li key={todo.id}>
+            <li key={todo.id} style={{ marginBottom: '8px' }}>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => toggleTodo(todo.id)}
+                style={{ marginRight: '8px' }}
+              />
               {todo.title} - {todo.completed ? 'Done' : 'Pending'}
             </li>
           ))}
