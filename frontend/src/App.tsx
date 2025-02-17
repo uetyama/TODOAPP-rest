@@ -12,9 +12,9 @@ const App: React.FC = () => {
   const [newTodo, setNewTodo] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  // コンポーネントの初回マウント時にAPIからTODOリストを取得
+  // コンポーネント初回マウント時に、Spring BootのREADエンドポイント（/todos/read）からデータ取得
   useEffect(() => {
-    axios.get('http://localhost:8080/todos')
+    axios.get('http://localhost:8080/todos/read')
       .then(response => {
         const data = response.data;
         // レスポンスが直接配列の場合と、オブジェクト内にtodosプロパティがある場合に対応
@@ -32,19 +32,19 @@ const App: React.FC = () => {
       });
   }, []);
 
-  // フォーム送信時の処理
+  // フォーム送信時の処理（新規Todo追加）
   const handleAddTodo = async (e: FormEvent) => {
     e.preventDefault();
     if (newTodo.trim() === '') return;
 
     try {
-      // POSTリクエストで新規TODOを作成
+      // POSTリクエストで新規Todoを作成
       const response = await axios.post('http://localhost:8080/todos/create', {
         title: newTodo,
         completed: false
       });
       
-      // APIから返ってきたTODOを追加
+      // 作成されたTodoをリストに追加
       const createdTodo: Todo = response.data;
       setTodos(prev => [...prev, createdTodo]);
       setNewTodo('');
@@ -74,7 +74,7 @@ const App: React.FC = () => {
       
       <hr />
       
-      {/* todosが配列であることを型ガードでチェック */}
+      {/* Todoリストの表示 */}
       {!Array.isArray(todos) ? (
         <p>データ形式が不正です</p>
       ) : todos.length === 0 && !error ? (
