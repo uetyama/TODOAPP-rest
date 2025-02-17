@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @ComponentScan(basePackages = {"com.example.todo_backend"})
 @RequestMapping("/todos")
@@ -15,9 +17,11 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    @GetMapping
-    public ResponseEntity<String> getTodos() {
-        return ResponseEntity.ok("Hello");
+    // READエンドポイント: 全Todoの取得
+    @GetMapping("/read")
+    public ResponseEntity<List<Todo>> readTodos() {
+        List<Todo> todos = todoService.getAllTodos();
+        return ResponseEntity.ok(todos);
     }
 
     @PostMapping("/create")
