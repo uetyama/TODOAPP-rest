@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 
@@ -15,9 +14,17 @@ const App: React.FC = () => {
 
   // コンポーネントの初回マウント時にAPIからTODOリストを取得
   useEffect(() => {
-    axios.get<Todo[]>('http://localhost:8080/todos')
+    axios.get('http://localhost:8080/todos')
       .then(response => {
-        setTodos(response.data);
+        const data = response.data;
+        // レスポンスが直接配列の場合と、オブジェクト内にtodosプロパティがある場合に対応
+        if (Array.isArray(data)) {
+          setTodos(data);
+        } else if (data && Array.isArray(data.todos)) {
+          setTodos(data.todos);
+        } else {
+          throw new Error('Unexpected API response format');
+        }
       })
       .catch(err => {
         console.error('Error fetching todos:', err);
@@ -32,18 +39,18 @@ const App: React.FC = () => {
 
     try {
       // POSTリクエストで新規TODOを作成
-      const response = await axios.post<Todo>('http://localhost:8080/todos/create', {
+      const response = await axios.post('http://localhost:8080/todos/create', {
         title: newTodo,
         completed: false
       });
       
-      // 作成されたTODO（バックエンドから返ってくる）を状態に追加
-      const createdTodo = response.data;
-      setTodos([...todos, createdTodo]);
+      // APIから返ってきたTODOを追加
+      const createdTodo: Todo = response.data;
+      setTodos(prev => [...prev, createdTodo]);
       setNewTodo('');
       setError(null);
-    } catch (error) {
-      console.error('Error adding todo:', error);
+    } catch (err) {
+      console.error('Error adding todo:', err);
       setError('TODOの追加に失敗しました');
     }
   };
@@ -67,7 +74,10 @@ const App: React.FC = () => {
       
       <hr />
       
-      {todos.length === 0 && !error ? (
+      {/* todosが配列であることを型ガードでチェック */}
+      {!Array.isArray(todos) ? (
+        <p>データ形式が不正です</p>
+      ) : todos.length === 0 && !error ? (
         <p>No todos available.</p>
       ) : (
         <ul>
