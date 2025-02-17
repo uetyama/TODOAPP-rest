@@ -13,6 +13,11 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
+    @GetMapping
+    public ResponseEntity<String> getTodos() {
+        return ResponseEntity.ok("Hello");
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Todo> createTodo(@RequestBody Todo todo) {
         Todo createdTodo = todoService.createTodo(todo);

@@ -15,7 +15,7 @@ const App: React.FC = () => {
 
   // コンポーネントの初回マウント時にAPIからTODOリストを取得
   useEffect(() => {
-    axios.get<Todo[]>('http://localhost:8080/api/todos')
+    axios.get<Todo[]>('http://localhost:8080/todos')
       .then(response => {
         setTodos(response.data);
       })
@@ -26,19 +26,26 @@ const App: React.FC = () => {
   }, []);
 
   // フォーム送信時の処理
-  const handleAddTodo = (e: FormEvent) => {
+  const handleAddTodo = async (e: FormEvent) => {
     e.preventDefault();
     if (newTodo.trim() === '') return;
 
-    // 新しいTODOをローカルに追加（後でバックエンドにPOSTする処理に拡張可能）
-    const newEntry: Todo = {
-      id: Date.now(),
-      title: newTodo,
-      completed: false
-    };
-
-    setTodos([...todos, newEntry]);
-    setNewTodo('');
+    try {
+      // POSTリクエストで新規TODOを作成
+      const response = await axios.post<Todo>('http://localhost:8080/todos/create', {
+        title: newTodo,
+        completed: false
+      });
+      
+      // 作成されたTODO（バックエンドから返ってくる）を状態に追加
+      const createdTodo = response.data;
+      setTodos([...todos, createdTodo]);
+      setNewTodo('');
+      setError(null);
+    } catch (error) {
+      console.error('Error adding todo:', error);
+      setError('TODOの追加に失敗しました');
+    }
   };
 
   return (
