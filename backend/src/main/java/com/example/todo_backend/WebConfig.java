@@ -13,11 +13,11 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // 全エンドポイントに対して
+                registry.addMapping("/**") // 全エンドポイントに適用
                         .allowedOrigins("http://localhost:5173") // 許可するオリジン
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 許可するHTTPメソッド
-                        .allowedHeaders("*") // 全ヘッダーを許可
-                        .allowCredentials(true); // 認証情報を許可
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // OPTIONSも含む
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
