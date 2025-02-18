@@ -134,7 +134,7 @@ const App: React.FC = () => {
 
   return (
     <div style={containerStyle}>
-      <h1 style={headerStyle}>TODO App (Spring Boot連携)</h1>
+      <h1 style={headerStyle}>TODO App</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {/* 入力フォーム */}
