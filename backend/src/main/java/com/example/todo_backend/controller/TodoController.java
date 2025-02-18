@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@ComponentScan(basePackages = {"com.example.todo_backend"})
+@ComponentScan(basePackages = { "com.example.todo_backend" })
 @RequestMapping("/todos")
 public class TodoController {
 
@@ -29,4 +29,14 @@ public class TodoController {
         Todo createdTodo = todoService.createTodo(todo);
         return ResponseEntity.ok(createdTodo);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
+        boolean deleted = todoService.deleteTodo(id);
+        if (!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }

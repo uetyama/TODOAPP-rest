@@ -12,12 +12,11 @@ const App: React.FC = () => {
   const [newTodo, setNewTodo] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  // コンポーネント初回マウント時に、Spring BootのREADエンドポイント（/todos/read）からデータ取得
+  // 初回マウント時にSpring BootのREADエンドポイントからデータ取得
   useEffect(() => {
     axios.get('http://localhost:8080/todos/read')
       .then(response => {
         const data = response.data;
-        // レスポンスが直接配列の場合と、オブジェクト内にtodosプロパティがある場合に対応
         if (Array.isArray(data)) {
           setTodos(data);
         } else if (data && Array.isArray(data.todos)) {
@@ -32,19 +31,16 @@ const App: React.FC = () => {
       });
   }, []);
 
-  // フォーム送信時の処理（新規Todo追加）
+  // 新規Todo追加
   const handleAddTodo = async (e: FormEvent) => {
     e.preventDefault();
     if (newTodo.trim() === '') return;
 
     try {
-      // POSTリクエストで新規Todoを作成
       const response = await axios.post('http://localhost:8080/todos/create', {
         title: newTodo,
         completed: false
       });
-
-      // 作成されたTodoをリストに追加
       const createdTodo: Todo = response.data;
       setTodos(prev => [...prev, createdTodo]);
       setNewTodo('');
@@ -55,7 +51,19 @@ const App: React.FC = () => {
     }
   };
 
-  // チェックボックスのオンオフ ※状態管理のみ
+  // Todoの削除処理
+  const handleDeleteTodo = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/todos/delete/${id}`);
+      setTodos(prev => prev.filter(todo => todo.id !== id));
+      setError(null);
+    } catch (err) {
+      console.error('Error deleting todo:', err);
+      setError('TODOの削除に失敗しました');
+    }
+  };
+
+  // チェックボックス切り替え（状態管理のみ）
   const toggleTodo = (id: number) => {
     setTodos(prevTodos =>
       prevTodos.map(todo =>
@@ -64,42 +72,109 @@ const App: React.FC = () => {
     );
   };
 
+  // 簡単なモダンスタイル
+  const containerStyle: React.CSSProperties = {
+    maxWidth: '600px',
+    margin: '40px auto',
+    padding: '20px',
+    background: '#fff',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    borderRadius: '8px',
+    fontFamily: 'Arial, sans-serif'
+  };
+
+  const headerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#333'
+  };
+
+  const formStyle: React.CSSProperties = {
+    display: 'flex',
+    marginBottom: '20px'
+  };
+
+  const inputStyle: React.CSSProperties = {
+    flex: 1,
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    marginRight: '10px'
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '4px',
+    background: '#007bff',
+    color: '#fff',
+    cursor: 'pointer'
+  };
+
+  const todoItemStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+    borderBottom: '1px solid #eee'
+  };
+
+  const todoTitleStyle: React.CSSProperties = {
+    flex: 1,
+    marginLeft: '10px'
+  };
+
+  const deleteButtonStyle: React.CSSProperties = {
+    marginLeft: '10px',
+    padding: '5px 10px',
+    background: '#dc3545',
+    border: 'none',
+    borderRadius: '4px',
+    color: '#fff',
+    cursor: 'pointer'
+  };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>TODO App (Spring Boot連携)</h1>
+    <div style={containerStyle}>
+      <h1 style={headerStyle}>TODO App (Spring Boot連携)</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {/* 入力フォーム */}
-      <form onSubmit={handleAddTodo}>
+      <form onSubmit={handleAddTodo} style={formStyle}>
         <input
           type="text"
           placeholder="New todo..."
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
-          style={{ marginRight: '8px' }}
+          style={inputStyle}
         />
-        <button type="submit">Add Todo</button>
+        <button type="submit" style={buttonStyle}>Add Todo</button>
       </form>
 
-      <hr />
-
-      {/* Todoリストの表示 */}
+      {/* Todoリスト */}
       {!Array.isArray(todos) ? (
         <p>データ形式が不正です</p>
       ) : todos.length === 0 && !error ? (
         <p>No todos available.</p>
       ) : (
-        <ul>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
           {todos.map(todo => (
-            <li key={todo.id} style={{ marginBottom: '8px' }}>
+            <li key={todo.id} style={todoItemStyle}>
               <input
                 type="checkbox"
                 checked={todo.completed}
                 onChange={() => toggleTodo(todo.id)}
-                style={{ marginRight: '8px' }}
               />
-              {todo.title} - {todo.completed ? 'Done' : 'Pending'}
+              <span style={{
+                ...todoTitleStyle,
+                textDecoration: todo.completed ? 'line-through' : 'none' // 取り消し線
+              }}>
+                {todo.title}
+              </span>
+              <button
+                onClick={() => handleDeleteTodo(todo.id)}
+                style={deleteButtonStyle}
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
