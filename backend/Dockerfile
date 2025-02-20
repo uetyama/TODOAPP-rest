@@ -9,7 +9,7 @@ COPY target/todo-backend-0.0.1-SNAPSHOT.jar app.jar
 
 
 # ポートを開放
-EXPOSE 9090
+EXPOSE 8080
 
 # アプリ起動
 CMD ["java", "-jar", "app.jar"]

@@ -17,7 +17,6 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    // READエンドポイント: 全Todoの取得
     @GetMapping("/read")
     public ResponseEntity<List<Todo>> readTodos() {
         List<Todo> todos = todoService.getAllTodos();
