@@ -18,7 +18,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image
-        run: docker build -t your-image-name:latest .
+        run: docker build -t your-image-name:latest backend
+
 
       # ※必要に応じてDocker Hubや他のレジストリへのプッシュも追加可能
       #- name: Log in to Docker Hub
