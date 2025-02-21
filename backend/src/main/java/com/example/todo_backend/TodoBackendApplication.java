@@ -17,6 +17,6 @@ public class TodoBackendApplication {
     @GetMapping("/test")
     public ResponseEntity<String> testEndpoint() {
         // Curlで叩かれたら、"Hello, world!"を返す
-        return ResponseEntity.ok("Heo, world!");
+        return ResponseEntity.ok("Hello, world!");
     }
 }
