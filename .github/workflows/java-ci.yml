@@ -29,4 +29,4 @@ jobs:
 
       # テストの実行（ビルド内で既にテストが実行されていれば不要）
       - name: Run Tests
-        run: mvn test
+        run: cd backend && mvn test
