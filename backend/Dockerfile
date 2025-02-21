@@ -13,3 +13,6 @@ EXPOSE 8080
 
 # アプリ起動
 CMD ["java", "-jar", "app.jar"]
+
+
+    

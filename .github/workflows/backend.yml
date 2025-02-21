@@ -1,0 +1,27 @@
+name: Backend Build & Docker Image
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Mavenによるバックエンドのビルド（backendディレクトリへ移動して実行）
+      - name: Build with Maven
+        run: |
+          cd backend
+          mvn clean install
+
+      # Dockerイメージのビルド（Dockerfileがbackendディレクトリ内にある場合）
+      - name: Build Docker image for backend
+        run: docker build -t your-backend-image:latest backend

@@ -1,0 +1,21 @@
+name: Frontend Docker Build
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+  pull_request:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Dockerイメージのビルド（Dockerfileがfrontendディレクトリ内にある場合）
+      - name: Build Docker image for frontend
+        run: docker build -t your-frontend-image:latest frontend
