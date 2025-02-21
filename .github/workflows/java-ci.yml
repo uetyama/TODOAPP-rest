@@ -1,0 +1,32 @@
+name: Java CI
+
+# mainブランチへのプッシュやプルリクエスト時に実行される
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリのソースコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Java環境のセットアップ（例としてJDK21を使用）
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # Mavenによるビルド
+      - name: Build with Maven
+        run: cd backend && mvn clean install
+
+      # テストの実行（ビルド内で既にテストが実行されていれば不要）
+      - name: Run Tests
+        run: mvn test
