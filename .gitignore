@@ -1,0 +1,7 @@
+# Terraform project
+terraform-project/
+
+# バッチファイル
+*.bat
+
+
