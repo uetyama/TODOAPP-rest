@@ -1,5 +1,5 @@
 # Build stage: Maven+JDK21のイメージを使ってビルド
-FROM maven:3.9.2-eclipse-temurin-21 AS builder
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
