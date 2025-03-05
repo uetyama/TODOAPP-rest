@@ -1,11 +1,7 @@
 // src/components/TodoList.tsx
 import React from 'react';
 import TodoItem from './TodoItem';
-import { Todo } from '../hooks/useTodos';
-
-interface TodoListProps {
-  todos: Todo[];
-}
+import { TodoListProps } from '../types/type';
 
 const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   if (todos.length === 0) return <p>No todos available</p>;

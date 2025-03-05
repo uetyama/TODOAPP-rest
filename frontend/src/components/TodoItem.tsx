@@ -1,10 +1,6 @@
 // src/components/TodoItem.tsx
 import React from 'react';
-import { Todo } from '../hooks/useTodos';
-
-interface TodoItemProps {
-  todo: Todo;
-}
+import { TodoItemProps } from '../types/type';
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   return (

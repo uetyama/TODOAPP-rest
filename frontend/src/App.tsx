@@ -1,11 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { Todo } from './types/type';
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);

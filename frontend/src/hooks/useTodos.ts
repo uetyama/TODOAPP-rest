@@ -1,12 +1,8 @@
 // src/hooks/useTodos.ts
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import { Todo } from '../types/type';
 
-export interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
 
 const useTodos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
