@@ -37,9 +37,7 @@ const App: React.FC = () => {
         completed: false
       });
       const createdTodo: Todo = response.data;
-      setTodos(prev => [...prev, createdTodo]);
-      setNewTodo('');
-      setError(null);
+      setTodos(prev => [...prev, createdTodo]); // 新しいTodoを追加
     } catch (err) {
       console.error('Error adding todo:', err);
       setError('TODOの追加に失敗しました');
