@@ -1,5 +1,5 @@
 // hooks/useTodos.ts
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import { Todo } from "../types/type";
 
@@ -22,6 +22,26 @@ export const useTodos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+
+  // 初回マウント時にSpring BootのREADエンドポイントからデータ取得
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/todos/read")
+      .then((response) => {
+        const data = response.data;
+        if (Array.isArray(data)) {
+          setTodos(data);
+        } else if (data && Array.isArray(data.todos)) {
+          setTodos(data.todos);
+        } else {
+          throw new Error("Unexpected API response format");
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching todos:", err);
+        setError("APIリクエストに失敗しました");
+      });
+  }, []);
 
   /**
    * 新しいTodoを追加するハンドラー
