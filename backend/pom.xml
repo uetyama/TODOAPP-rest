@@ -60,20 +60,6 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- JUnit 5 (Jupiter) -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.8.2</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- 追加で必要な場合はjunit-jupiter-apiも -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.8.2</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
