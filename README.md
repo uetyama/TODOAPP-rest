@@ -2,6 +2,14 @@
 
 このプロジェクトは、Spring Boot をバックエンド、React をフロントエンドに採用したシンプルな TODO 管理アプリ
 
+#　バージョン
+
+- **Java**: 21.0.6 (2025-01-21 LTS)  
+  - Java(TM) SE Runtime Environment (build 21.0.6+8-LTS-188)  
+  - Java HotSpot(TM) 64-Bit Server VM (build 21.0.6+8-LTS-188, mixed mode, sharing)
+- **Node.js**: v22.13.1
+- **MySQL**: 8.x 系
+
 ## 概要
 
 - **バックエンド (Spring Boot):**
