@@ -23,10 +23,13 @@ export const useTodos = () => {
   const [newTodo, setNewTodo] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
+  // ローカルかクラウドか識別するURI
+  const hostUrl: string = import.meta.env.VITE_LOCAL_API_HOST
+
   // 初回マウント時にSpring BootのREADエンドポイントからデータ取得
   useEffect(() => {
     axios
-      .get("http://localhost:8080/todos/read")
+      .get(`${hostUrl}/read`)
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data)) {
@@ -55,7 +58,7 @@ export const useTodos = () => {
     if (newTodo.trim() === "") return;
 
     try {
-      const response = await axios.post("http://localhost:8080/todos/create", {
+      const response = await axios.post(`${hostUrl}/create`, {
         title: newTodo,
         completed: false,
       });
@@ -77,7 +80,7 @@ export const useTodos = () => {
    */
   const deleteTodo = async (id: number): Promise<void> => {
     try {
-      await axios.delete(`http://localhost:8080/todos/delete/${id}`);
+      await axios.delete(`${hostUrl}/delete/${id}`);
       setTodos((prev) => prev.filter((todo) => todo.id !== id));
       setError(null);
     } catch (err) {
