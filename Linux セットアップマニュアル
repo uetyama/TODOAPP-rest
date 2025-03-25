@@ -1,0 +1,38 @@
+# ① パッケージアップデート
+sudo apt update && sudo apt upgrade -y
+
+# ② タイムゾーン設定（東京にする）
+sudo timedatectl set-timezone Asia/Tokyo
+
+# ③ Javaインストール（JDK 21）
+sudo apt install openjdk-21-jdk -y
+java -version  # ←バージョン確認！
+
+# ④ Node.js & npm（Reactビルド用）
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+node -v && npm -v  # ←確認
+
+# ⑤ Nginxインストール
+sudo apt install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+# ⑥ htopインストール
+sudo apt install htop
+
+推奨：
+
+・スワップ領域を増やす
+
+
+# ツール関連
+
+# Gitがなければ
+sudo apt install git -y
+
+# unzip使う場合
+sudo apt install unzip -y
+
+# curlも一応
+sudo apt install curl -y
