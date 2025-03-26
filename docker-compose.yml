@@ -14,10 +14,17 @@ services:
       - db
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_LOCAL_API_HOST: ${VITE_LOCAL_API_HOST}
+        VITE_LOCAL_API_PATH: ${VITE_LOCAL_API_PATH}
+    env_file:
+      - .env
     # image: 043309345655.dkr.ecr.ap-northeast-1.amazonaws.com/todo:frontend-latest
     ports:
       - "3000:80"
+
     depends_on:
       - backend
 

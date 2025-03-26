@@ -4,4 +4,6 @@ terraform-project/
 # バッチファイル
 *.bat
 
+# 環境設定
+.env*
 
