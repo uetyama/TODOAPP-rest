@@ -29,7 +29,7 @@ export const useTodos = () => {
   // 初回マウント時にSpring BootのREADエンドポイントからデータ取得
   useEffect(() => {
     axios
-      .get(`${hostUrl}/read`)
+      .get(`${hostUrl}/todos/read`)
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data)) {
@@ -58,7 +58,7 @@ export const useTodos = () => {
     if (newTodo.trim() === "") return;
 
     try {
-      const response = await axios.post(`${hostUrl}/create`, {
+      const response = await axios.post(`${hostUrl}/todos/create`, {
         title: newTodo,
         completed: false,
       });
@@ -80,7 +80,7 @@ export const useTodos = () => {
    */
   const deleteTodo = async (id: number): Promise<void> => {
     try {
-      await axios.delete(`${hostUrl}/delete/${id}`);
+      await axios.delete(`${hostUrl}/todos/delete/${id}`);
       setTodos((prev) => prev.filter((todo) => todo.id !== id));
       setError(null);
     } catch (err) {
