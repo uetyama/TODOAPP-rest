@@ -24,7 +24,7 @@ export const useTodos = () => {
   const [error, setError] = useState<string | null>(null);
 
   // ローカルかクラウドか識別するURI
-  const hostUrl: string = import.meta.env.VITE_LOCAL_API_HOST
+  const hostUrl: string = import.meta.env.VITE_API_HOST
 
   // 初回マウント時にSpring BootのREADエンドポイントからデータ取得
   useEffect(() => {

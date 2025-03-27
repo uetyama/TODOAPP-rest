@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // 全エンドポイントに適用
-                        .allowedOrigins("http://localhost:3000") // 許可するオリジン
+                        .allowedOrigins("http://3.113.105.193") // 許可するオリジン
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // OPTIONSも含む
                         .allowedHeaders("*")
                         .allowCredentials(true);
